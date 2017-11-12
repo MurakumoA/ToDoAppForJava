@@ -22,12 +22,6 @@ public class Todo extends HttpServlet{
         } catch (Exception e) {
 
         }
-//        request.setAttribute("id", todoModel.id.get(0));
-//        request.setAttribute("work", todoModel.work.get(0));
-//        request.setAttribute("cond", Integer.parseInt(todoModel.cond.get(0)));
-//        request.setAttribute("memo", todoModel.memo.get(0));
-//        request.setAttribute("startDate", todoModel.startDate.get(0));
-//        request.setAttribute("endDate", todoModel.endDate.get(0));
         request.setAttribute("model", todoModel);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/");
@@ -64,17 +58,39 @@ public class Todo extends HttpServlet{
         } else if (form.containsKey("regist")) {
             int count = Integer.parseInt(request.getParameter("count"));
             for (int i = 0; i < count; i++) {
-                todoModel.id.add((String)request.getParameter("id" + i));
-                todoModel.work.add((String)request.getParameter("work" + i));
-                todoModel.cond.add((String)request.getParameter("cond" + i));
-                todoModel.memo.add((String)request.getParameter("memo" + i));
-                todoModel.startDate.add((String)request.getParameter("startDate" + i));
-                todoModel.endDate.add((String)request.getParameter("endDate" + i));
+                todoModel.id.add((String) request.getParameter("id" + i));
+                todoModel.work.add((String) request.getParameter("work" + i));
+                todoModel.cond.add((String) request.getParameter("cond" + i));
+                todoModel.memo.add((String) request.getParameter("memo" + i));
+                todoModel.startDate.add((String) request.getParameter("startDate" + i));
+                todoModel.endDate.add((String) request.getParameter("endDate" + i));
             }
             try {
                 todoModel.regist();
+                todoModel.select();
             } catch (Exception e) {
 
+            }
+        } else if (form.containsKey("delete")) {
+            int count = Integer.parseInt(request.getParameter("count"));
+            for (int i = 0; i < count; i++) {
+                if (request.getParameter("del" + i) == null) {
+                    todoModel.id.add((String) request.getParameter("id" + i));
+                    todoModel.work.add((String) request.getParameter("work" + i));
+                    todoModel.cond.add((String) request.getParameter("cond" + i));
+                    todoModel.memo.add((String) request.getParameter("memo" + i));
+                    todoModel.startDate.add((String) request.getParameter("startDate" + i));
+                    todoModel.endDate.add((String) request.getParameter("endDate" + i));
+                } else {
+                    String id = (String)request.getParameter("id" + i);
+                    if (!"".equals(id)) {
+                        try {
+                            todoModel.delete(id);
+                        } catch (Exception e) {
+
+                        }
+                    }
+                }
             }
         } else {
             try {
@@ -84,18 +100,6 @@ public class Todo extends HttpServlet{
             }
 
         }
-//        todoModel.work.add((String)request.getParameter("work"));
-//        todoModel.cond.add((String)request.getParameter("cond"));
-//        todoModel.memo.add((String)request.getParameter("memo"));
-//        todoModel.startDate.add((String)request.getParameter("startDate"));
-//        todoModel.endDate.add((String)request.getParameter("endDate"));
-
-//        try {
-//            todoModel.insert();
-//        } catch (Exception e) {
-//
-//        }
-
 
         request.setAttribute("model", todoModel);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/");

@@ -6,8 +6,8 @@ CREATE TABLE todo(
   work varchar(100) not null,
   cond int not null,
   memo varchar(100),
-  estimated_start_date date not null,
-  esitmated_end_date date not null,
+  estimated_start_date date,
+  esitmated_end_date date,
   create_date datetime,
   update_date datetime
 );
