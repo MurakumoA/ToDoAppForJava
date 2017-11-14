@@ -16,7 +16,10 @@ public class Todo extends HttpServlet{
         //リクエストパラメータの文字コードを指定
         request.setCharacterEncoding("UTF-8");
 
+        int userId = (int)request.getSession(true).getAttribute("userId");
+
         TodoModel todoModel = new TodoModel();
+        todoModel.userId = userId;
         try {
             todoModel.select();
         } catch (Exception e) {
@@ -24,7 +27,7 @@ public class Todo extends HttpServlet{
         }
         request.setAttribute("model", todoModel);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/todo.jsp");
         dispatcher.forward(request,response);
     }
 
@@ -102,13 +105,8 @@ public class Todo extends HttpServlet{
         }
 
         request.setAttribute("model", todoModel);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/todo.jsp");
         dispatcher.forward(request,response);
     }
-
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
 
 }

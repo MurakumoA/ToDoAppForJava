@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public class TodoModel {
+    public int userId;
     public List<String> id = new ArrayList<>();
     public List<String> work = new ArrayList<>();
     public List<String> cond = new ArrayList<>();
@@ -15,46 +16,30 @@ public class TodoModel {
     public List<String> endDate = new ArrayList<>();
 
     public void select() throws Exception {
-        /*接続先サーバー名を"localhost"で与えることを示している*/
-        String servername = "localhost";
-
-        /*接続するデータベース名をsenngokuとしている*/
-        String databasename = "todo";
-
-        /*データベースの接続に用いるユーザ名をrootユーザとしている*/
-        String user = "dbuser";
-
-        /*データベースの接続に用いるユーザのパスワードを指定している*/
-        String password = "DBuser01+";
-
-        /*取り扱う文字コードをUTF-8文字としている*/
-        String serverencoding = "UTF-8";
-
-        /*データベースをあらわすURLを設定している*/
-        String url = "jdbc:mysql://localhost/" + databasename;
-
         Connection con = null;
 
+        id = new ArrayList<>();
+        work = new ArrayList<>();
+        cond = new ArrayList<>();
+        memo = new ArrayList<>();
+        startDate = new ArrayList<>();
+        endDate = new ArrayList<>();
+
         try {
-
-            /*クラスローダによりJDBCドライバを読み込んでいることを示している。
-            引数は、データベースにアクセスするためのJDBCドライバのクラス名である。*/
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-            /*DriverManagerクラスのgetConnectionメソッドを使ってデータベースに接続する。*/
-            con = DriverManager.getConnection(url, user, password);
+            // DB接続情報取得
+            con = dbConnect();
 
             System.out.println("Connected....");
 
             /*データベースの接続後に、sql文をデータベースに直接渡すのではなく、
             sqlコンテナの役割を果たすオブジェクトに渡すためのStatementオブジェクトを作成する。*/
-            Statement st = con.createStatement();
-
             /*SQL文を作成する*/
-            String sqlStr = "SELECT * FROM todo";
+            PreparedStatement pstmt = con.prepareStatement("select * from todo.todo where userId=?");
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
-            ResultSet result = st.executeQuery(sqlStr);
+            pstmt.setInt(1, userId);
+            pstmt.executeQuery();
+            ResultSet result = pstmt.getResultSet();
 
             /*クエリ結果を1レコードずつ出力していく*/
             while (result.next()) {
@@ -71,7 +56,7 @@ public class TodoModel {
             result.close();
 
             /*Statementオブジェクトを閉じる*/
-            st.close();
+            pstmt.close();
 
             /*Connectionオブジェクトを閉じる*/
             con.close();
@@ -128,26 +113,23 @@ public class TodoModel {
             System.out.println("Connected....");
 
             /*データベースの接続後に、sql文をデータベースに直接渡すのではなく、
-            sqlコンテナの役割を果たすオブジェクトに渡すためのStatementオブジェクトを作成する。*/
-            Statement st = con.createStatement();
-
+            sqlコンテナの役割を果たすオブジェクトに渡すためのPreparedStatementオブジェクトを作成する。*/
             /*SQL文を作成する*/
-            //String sqlStr = "insert into todo.todo (work, cond, memo, estimated_start_date, esitmated_end_date, create_date, update_date) values('',0,'','','','','')";
-            PreparedStatement pstmt = con.prepareStatement("insert into todo.todo (work, cond, memo, estimated_start_date, esitmated_end_date, create_date, update_date) values(?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("insert into todo.todo (userId, work, cond, memo, estimated_start_date, esitmated_end_date, create_date, update_date) values(?,?,?,?,?,?,?,?)");
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
-            //st.executeUpdate(sqlStr);
-            pstmt.setString(1, work);
-            pstmt.setInt(2, Integer.parseInt(cond));
-            pstmt.setString(3, memo);
-            pstmt.setString(4, "".equals(startDate)? null:startDate);
-            pstmt.setString(5, "".equals(endDate)? null:endDate);
-            pstmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, work);
+            pstmt.setInt(3, Integer.parseInt(cond));
+            pstmt.setString(4, memo);
+            pstmt.setString(5, "".equals(startDate)? null:startDate);
+            pstmt.setString(6, "".equals(endDate)? null:endDate);
             pstmt.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+            pstmt.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
             pstmt.executeUpdate();
 
-            /*Statementオブジェクトを閉じる*/
-            st.close();
+            /*PreparedStatementオブジェクトを閉じる*/
+            pstmt.close();
 
             /*Connectionオブジェクトを閉じる*/
             con.close();
@@ -195,13 +177,8 @@ public class TodoModel {
             System.out.println("Connected....");
 
             /*データベースの接続後に、sql文をデータベースに直接渡すのではなく、
-            sqlコンテナの役割を果たすオブジェクトに渡すためのStatementオブジェクトを作成する。*/
-            Statement st = con.createStatement();
-
-
-
+            sqlコンテナの役割を果たすオブジェクトに渡すためのPreparedStatementオブジェクトを作成する。*/
             /*SQL文を作成する*/
-            //String sqlStr = "insert into todo.todo (work, cond, memo, estimated_start_date, esitmated_end_date, create_date, update_date) values('',0,'','','','','')";
             PreparedStatement pstmt = con.prepareStatement("update todo.todo set work=?, cond=?, memo=?, estimated_start_date=?, esitmated_end_date=?, update_date=? where id=?");
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
@@ -215,8 +192,8 @@ public class TodoModel {
             pstmt.setInt(7, Integer.parseInt(id));
             pstmt.executeUpdate();
 
-            /*Statementオブジェクトを閉じる*/
-            st.close();
+            /*PreparedStatementオブジェクトを閉じる*/
+            pstmt.close();
 
             /*Connectionオブジェクトを閉じる*/
             con.close();
@@ -264,13 +241,8 @@ public class TodoModel {
             System.out.println("Connected....");
 
             /*データベースの接続後に、sql文をデータベースに直接渡すのではなく、
-            sqlコンテナの役割を果たすオブジェクトに渡すためのStatementオブジェクトを作成する。*/
-            Statement st = con.createStatement();
-
-
-
+            sqlコンテナの役割を果たすオブジェクトに渡すためのPreparedStatementオブジェクトを作成する。*/
             /*SQL文を作成する*/
-            //String sqlStr = "insert into todo.todo (work, cond, memo, estimated_start_date, esitmated_end_date, create_date, update_date) values('',0,'','','','','')";
             PreparedStatement pstmt = con.prepareStatement("delete from todo.todo where id=?");
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
@@ -278,8 +250,8 @@ public class TodoModel {
             pstmt.setString(1, id);
             pstmt.executeUpdate();
 
-            /*Statementオブジェクトを閉じる*/
-            st.close();
+            /*PreparedStatementオブジェクトを閉じる*/
+            pstmt.close();
 
             /*Connectionオブジェクトを閉じる*/
             con.close();
