@@ -88,7 +88,7 @@ public class UserRegistModel {
             pstmt.executeQuery();
 
             if (pstmt.getResultSet().next()) {
-                id = pstmt.getResultSet().getInt("Id");
+                id = pstmt.getResultSet().getInt("userId");
             }
 
             /*Statementオブジェクトを閉じる*/

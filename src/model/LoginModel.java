@@ -34,7 +34,7 @@ public class LoginModel {
             if (pstmt.getResultSet().next()) {
                 loginCheck = true;
                 name = pstmt.getResultSet().getString("name");
-                id = pstmt.getResultSet().getInt("Id");
+                id = pstmt.getResultSet().getInt("userId");
             } else {
                 loginCheck = false;
             }

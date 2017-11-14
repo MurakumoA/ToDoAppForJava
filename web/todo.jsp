@@ -31,7 +31,7 @@
         <th></th>
       </tr>
       <% TodoModel model = (TodoModel)request.getAttribute("model");%>
-      <% if(model != null) { %>
+      <% if(model != null && model.id.size() > 0) { %>
       <input type="hidden" name="count" value=<%= model.id.size() %>>
       <% for(int i = 0; i < model.id.size(); i++) {%>
       <tr>

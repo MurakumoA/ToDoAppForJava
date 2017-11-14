@@ -37,9 +37,9 @@ public class Todo extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         Map<String, String[]> form = request.getParameterMap();
-        System.out.println(form.containsKey("add"));
-        System.out.println(form.containsKey("regist"));
+        int userId = (int)request.getSession(true).getAttribute("userId");
         TodoModel todoModel = new TodoModel();
+        todoModel.userId = userId;
         if (form.containsKey("add")) {
             int count = Integer.parseInt(request.getParameter("count"));
             for (int i = 0; i < count; i++) {

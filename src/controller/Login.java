@@ -60,8 +60,10 @@ public class Login  extends HttpServlet{
                 HttpSession session = request.getSession(true);
                 session.setAttribute("userId", loginModel.id);
                 session.setAttribute("name", loginModel.name);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/todo.jsp");
-                dispatcher.forward(request, response);
+//                RequestDispatcher dispatcher = request.getRequestDispatcher("/todo");
+//                dispatcher.forward(request, response);
+                Todo todo = new Todo();
+                todo.doGet(request, response);
             } else {
                 error.add("入力されたメールアドレスまたはパスワードに誤りがあります。");
                 request.setAttribute("mail", mail);
