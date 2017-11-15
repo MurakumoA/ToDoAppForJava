@@ -17,7 +17,12 @@
   </head>
   <body>
   <h1>ToDo</h1>
-  <p><%=request.getSession(true).getAttribute("name") + "さん"%></p>
+  <p>
+    <form method="get" action="logout">
+      <%=request.getSession(true).getAttribute("name") + "さん"%>
+      <button type="submit" name="logout">ログアウト</button>
+    </form>
+  </p>
   <input type="hidden" name="userId" value=<%=request.getSession(true).getAttribute("userId")%>>
   <form method="post" action="todo">
     <table>

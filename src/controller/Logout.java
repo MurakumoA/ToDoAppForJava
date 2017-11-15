@@ -1,6 +1,6 @@
 package controller;
 
-import model.UserRegistModel;
+import model.LoginModel;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,12 +13,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/userRegist")
-public class UserRegist extends HttpServlet{
+@WebServlet("/logout")
+public class Logout extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/userRegist.jsp");
-        dispatcher.forward(request,response);
+        //リクエストパラメータの文字コードを指定
+        request.setCharacterEncoding("UTF-8");
+        request.getSession(true).removeAttribute("userId");
 
+        response.sendRedirect("/");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,15 +28,11 @@ public class UserRegist extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         String mail = (String)request.getParameter("mail");
-        String name = (String)request.getParameter("name");
         String password = (String)request.getParameter("password");
 
         List<String> error = new ArrayList<String>();
         if ("".equals(mail)) {
             error.add("メールアドレスが入力されていません。");
-        }
-        if ("".equals(name)) {
-            error.add("名前が入力されていません。");
         }
         if ("".equals(password)) {
             error.add("パスワードが入力されていません。");
@@ -42,29 +40,39 @@ public class UserRegist extends HttpServlet{
 
         if (error.size() > 0) {
             request.setAttribute("mail", mail);
-            request.setAttribute("name", name);
             request.setAttribute("password", password);
             request.setAttribute("error", error);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/userRegist.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
             dispatcher.forward(request,response);
         } else {
 
-            UserRegistModel userRegistModel = new UserRegistModel();
-            userRegistModel.mail = mail;
-            userRegistModel.name = name;
-            userRegistModel.password = password;
+            LoginModel loginModel = new LoginModel();
+            loginModel.mail = mail;
+            loginModel.password = password;
             try {
-                userRegistModel.insert();
-                userRegistModel.getId();
+                loginModel.confirm();
             } catch (Exception e) {
 
             }
 
-            HttpSession session = request.getSession(true);
-            session.setAttribute("name", userRegistModel.name);
-            session.setAttribute("userId", userRegistModel.id);
-            response.sendRedirect("/todo");
+            if (loginModel.loginCheck) {
+                HttpSession session = request.getSession(true);
+                session.setAttribute("userId", loginModel.id);
+                session.setAttribute("name", loginModel.name);
+//                RequestDispatcher dispatcher = request.getRequestDispatcher("/todo");
+//                dispatcher.forward(request, response);
+                Todo todo = new Todo();
+                todo.doGet(request, response);
+            } else {
+                error.add("入力されたメールアドレスまたはパスワードに誤りがあります。");
+                request.setAttribute("mail", mail);
+                request.setAttribute("password", password);
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+                dispatcher.forward(request, response);
+            }
         }
+
     }
 
 }
