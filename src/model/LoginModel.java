@@ -1,5 +1,7 @@
 package model;
 
+import service.SafePassword;
+
 import java.sql.*;
 
 public class LoginModel {
@@ -28,7 +30,7 @@ public class LoginModel {
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
             pstmt.setString(1, mail);
-            pstmt.setString(2, password);
+            pstmt.setString(2, SafePassword.getStretchedPassword(mail, password));
             pstmt.executeQuery();
 
             if (pstmt.getResultSet().next()) {

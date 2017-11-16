@@ -31,7 +31,7 @@
     </tr>
     <tr>
       <th>パスワード</th>
-      <td><input type="password" name="password" value=<%=request.getAttribute("password")!=null?request.getAttribute("password"):""%>></td>
+      <td><input type="password" name="password" value=""></td>
     </tr>
   </table>
   <p><button type="submit" name="login">ログイン</button></p>

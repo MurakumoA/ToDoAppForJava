@@ -1,5 +1,7 @@
 package model;
 
+import service.SafePassword;
+
 import java.sql.*;
 
 public class UserRegistModel {
@@ -27,7 +29,7 @@ public class UserRegistModel {
             //st.executeUpdate(sqlStr);
             pstmt.setString(1, mail);
             pstmt.setString(2, name);
-            pstmt.setString(3, password);
+            pstmt.setString(3, SafePassword.getStretchedPassword(mail, password));
             pstmt.executeUpdate();
 
             /*PreparedStatementオブジェクトを閉じる*/
