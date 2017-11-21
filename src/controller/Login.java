@@ -1,13 +1,10 @@
 package controller;
 
 import model.LoginModel;
-import model.TodoModel;
-import model.UserRegistModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.RequestDispatcher;
@@ -52,15 +49,14 @@ public class Login  extends HttpServlet{
             try {
                 loginModel.confirm();
             } catch (Exception e) {
-
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                dispatcher.forward(request, response);
             }
 
             if (loginModel.loginCheck) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("userId", loginModel.id);
                 session.setAttribute("name", loginModel.name);
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/todo");
-//                dispatcher.forward(request, response);
                 response.sendRedirect("/todo");
             } else {
                 error.add("入力されたメールアドレスまたはパスワードに誤りがあります。");

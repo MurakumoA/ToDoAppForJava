@@ -57,7 +57,8 @@ public class UserRegist extends HttpServlet{
                 userRegistModel.insert();
                 userRegistModel.getId();
             } catch (Exception e) {
-
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                dispatcher.forward(request, response);
             }
 
             HttpSession session = request.getSession(true);

@@ -1,7 +1,6 @@
 package model;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,14 +93,14 @@ public class TodoModel {
     public void regist() throws Exception {
         for (int i = 0; i < id.size(); i++) {
             if (id.get(i).isEmpty()) {
-                insert(id.get(i), work.get(i), cond.get(i), memo.get(i), startDate.get(i), endDate.get(i));
+                insert(work.get(i), cond.get(i), memo.get(i), startDate.get(i), endDate.get(i));
             } else {
                 update(id.get(i), work.get(i), cond.get(i), memo.get(i), startDate.get(i), endDate.get(i));
             }
         }
     }
 
-    private void insert(String id, String work, String cond, String memo, String startDate, String endDate) throws Exception {
+    private void insert(String work, String cond, String memo, String startDate, String endDate) throws Exception {
 
         Connection con = null;
 

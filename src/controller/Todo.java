@@ -23,7 +23,9 @@ public class Todo extends HttpServlet{
         try {
             todoModel.select();
         } catch (Exception e) {
-
+            request.getSession(true).removeAttribute("userId");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+            dispatcher.forward(request, response);
         }
         request.setAttribute("model", todoModel);
 
@@ -72,7 +74,9 @@ public class Todo extends HttpServlet{
                 todoModel.regist();
                 todoModel.select();
             } catch (Exception e) {
-
+                request.getSession(true).removeAttribute("userId");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                dispatcher.forward(request, response);
             }
         } else if (form.containsKey("delete")) {
             int count = Integer.parseInt(request.getParameter("count"));
@@ -90,7 +94,9 @@ public class Todo extends HttpServlet{
                         try {
                             todoModel.delete(id);
                         } catch (Exception e) {
-
+                            request.getSession(true).removeAttribute("userId");
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                            dispatcher.forward(request, response);
                         }
                     }
                 }
@@ -99,7 +105,9 @@ public class Todo extends HttpServlet{
             try {
                 todoModel.select();
             } catch (Exception e) {
-
+                request.getSession(true).removeAttribute("userId");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                dispatcher.forward(request, response);
             }
 
         }
