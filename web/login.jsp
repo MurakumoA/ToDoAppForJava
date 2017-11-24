@@ -27,7 +27,7 @@
   <table>
     <tr>
       <th>メールアドレス</th>
-      <td><input type="text" name="mail" value=<%=request.getAttribute("mail")!=null?request.getAttribute("mail"):""%>></td>
+      <td><input type="text" name="mail" value=<%=request.getParameter("mail")!=null?request.getParameter("mail"):""%>></td>
     </tr>
     <tr>
       <th>パスワード</th>

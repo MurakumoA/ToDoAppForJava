@@ -1,14 +1,16 @@
 package model;
 
+import lombok.Data;
 import service.SafePassword;
 
 import java.sql.*;
 
+@Data
 public class UserRegistModel {
-    public int id;
-    public String mail;
-    public String name;
-    public String password;
+    private int id;
+    private String mail;
+    private String name;
+    private String password;
 
     public void insert() throws Exception {
         Connection con = null;
@@ -69,7 +71,7 @@ public class UserRegistModel {
 
     }
 
-    public void getId() throws Exception {
+    public void getUserId() throws Exception {
         Connection con = null;
 
         try {
@@ -86,7 +88,7 @@ public class UserRegistModel {
 
             /*SQL文を実行した結果セットをResultSetオブジェクトに格納している*/
             pstmt.setString(1, mail);
-            pstmt.setString(2, password);
+            pstmt.setString(2, SafePassword.getStretchedPassword(mail, password));
             pstmt.executeQuery();
 
             if (pstmt.getResultSet().next()) {

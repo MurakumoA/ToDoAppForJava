@@ -41,29 +41,26 @@ public class UserRegist extends HttpServlet{
         }
 
         if (error.size() > 0) {
-            request.setAttribute("mail", mail);
-            request.setAttribute("name", name);
-            request.setAttribute("password", password);
             request.setAttribute("error", error);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/userRegist.jsp");
             dispatcher.forward(request,response);
         } else {
 
             UserRegistModel userRegistModel = new UserRegistModel();
-            userRegistModel.mail = mail;
-            userRegistModel.name = name;
-            userRegistModel.password = password;
+            userRegistModel.setMail(mail);
+            userRegistModel.setName(name);
+            userRegistModel.setPassword(password);
             try {
                 userRegistModel.insert();
-                userRegistModel.getId();
+                userRegistModel.getUserId();
             } catch (Exception e) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                 dispatcher.forward(request, response);
             }
 
             HttpSession session = request.getSession(true);
-            session.setAttribute("name", userRegistModel.name);
-            session.setAttribute("userId", userRegistModel.id);
+            session.setAttribute("name", userRegistModel.getName());
+            session.setAttribute("userId", userRegistModel.getId());
             response.sendRedirect("/todo");
         }
     }

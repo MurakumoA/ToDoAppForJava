@@ -19,7 +19,7 @@ public class Todo extends HttpServlet{
         int userId = (int)request.getSession(true).getAttribute("userId");
 
         TodoModel todoModel = new TodoModel();
-        todoModel.userId = userId;
+        todoModel.setUserId(userId);
         try {
             todoModel.select();
         } catch (Exception e) {
@@ -41,34 +41,33 @@ public class Todo extends HttpServlet{
         Map<String, String[]> form = request.getParameterMap();
         int userId = (int)request.getSession(true).getAttribute("userId");
         TodoModel todoModel = new TodoModel();
-        todoModel.userId = userId;
+        todoModel.setUserId(userId);
         if (form.containsKey("add")) {
             int count = Integer.parseInt(request.getParameter("count"));
             for (int i = 0; i < count; i++) {
-                todoModel.id.add((String)request.getParameter("id" + i));
-                todoModel.work.add((String)request.getParameter("work" + i));
-                todoModel.cond.add((String)request.getParameter("cond" + i));
-                todoModel.memo.add((String)request.getParameter("memo" + i));
-                todoModel.startDate.add((String)request.getParameter("startDate" + i));
-                todoModel.endDate.add((String)request.getParameter("endDate" + i));
-                System.out.println("todoModel:"+todoModel.id+todoModel.work+todoModel.cond+todoModel.memo);
+                todoModel.getId().add((String)request.getParameter("id" + i));
+                todoModel.getWork().add((String)request.getParameter("work" + i));
+                todoModel.getCond().add((String)request.getParameter("cond" + i));
+                todoModel.getMemo().add((String)request.getParameter("memo" + i));
+                todoModel.getStartDate().add((String)request.getParameter("startDate" + i));
+                todoModel.getEndDate().add((String)request.getParameter("endDate" + i));
             }
-            todoModel.id.add("");
-            todoModel.work.add("");
-            todoModel.cond.add("0");
-            todoModel.memo.add("");
-            todoModel.startDate.add("");
-            todoModel.endDate.add("");
+            todoModel.getId().add("");
+            todoModel.getWork().add("");
+            todoModel.getCond().add("0");
+            todoModel.getMemo().add("");
+            todoModel.getStartDate().add("");
+            todoModel.getEndDate().add("");
 
         } else if (form.containsKey("regist")) {
             int count = Integer.parseInt(request.getParameter("count"));
             for (int i = 0; i < count; i++) {
-                todoModel.id.add((String) request.getParameter("id" + i));
-                todoModel.work.add((String) request.getParameter("work" + i));
-                todoModel.cond.add((String) request.getParameter("cond" + i));
-                todoModel.memo.add((String) request.getParameter("memo" + i));
-                todoModel.startDate.add((String) request.getParameter("startDate" + i));
-                todoModel.endDate.add((String) request.getParameter("endDate" + i));
+                todoModel.getId().add((String) request.getParameter("id" + i));
+                todoModel.getWork().add((String) request.getParameter("work" + i));
+                todoModel.getCond().add((String) request.getParameter("cond" + i));
+                todoModel.getMemo().add((String) request.getParameter("memo" + i));
+                todoModel.getStartDate().add((String) request.getParameter("startDate" + i));
+                todoModel.getEndDate().add((String) request.getParameter("endDate" + i));
             }
             try {
                 todoModel.regist();
@@ -82,12 +81,12 @@ public class Todo extends HttpServlet{
             int count = Integer.parseInt(request.getParameter("count"));
             for (int i = 0; i < count; i++) {
                 if (request.getParameter("del" + i) == null) {
-                    todoModel.id.add((String) request.getParameter("id" + i));
-                    todoModel.work.add((String) request.getParameter("work" + i));
-                    todoModel.cond.add((String) request.getParameter("cond" + i));
-                    todoModel.memo.add((String) request.getParameter("memo" + i));
-                    todoModel.startDate.add((String) request.getParameter("startDate" + i));
-                    todoModel.endDate.add((String) request.getParameter("endDate" + i));
+                    todoModel.getId().add((String) request.getParameter("id" + i));
+                    todoModel.getWork().add((String) request.getParameter("work" + i));
+                    todoModel.getCond().add((String) request.getParameter("cond" + i));
+                    todoModel.getMemo().add((String) request.getParameter("memo" + i));
+                    todoModel.getStartDate().add((String) request.getParameter("startDate" + i));
+                    todoModel.getEndDate().add((String) request.getParameter("endDate" + i));
                 } else {
                     String id = (String)request.getParameter("id" + i);
                     if (!"".equals(id)) {

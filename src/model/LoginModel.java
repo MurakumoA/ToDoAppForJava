@@ -1,15 +1,23 @@
 package model;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import service.SafePassword;
 
 import java.sql.*;
 
+@Data
 public class LoginModel {
-    public int id;
-    public String mail;
-    public String name;
-    public String password;
-    public Boolean loginCheck;
+    @Getter
+    @Setter
+    private int id;
+    @Getter
+    @Setter
+    private String mail;
+    private String name;
+    private String password;
+    private Boolean loginCheck;
 
     public void confirm() throws Exception {
         Connection con = null;

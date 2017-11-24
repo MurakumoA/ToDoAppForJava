@@ -1,18 +1,20 @@
 package model;
 
+import lombok.Data;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Data
 public class TodoModel {
-    public int userId;
-    public List<String> id = new ArrayList<>();
-    public List<String> work = new ArrayList<>();
-    public List<String> cond = new ArrayList<>();
-    public List<String> memo = new ArrayList<>();
-    public List<String> startDate = new ArrayList<>();
-    public List<String> endDate = new ArrayList<>();
+    private int userId;
+    private List<String> id = new ArrayList<>();
+    private List<String> work = new ArrayList<>();
+    private List<String> cond = new ArrayList<>();
+    private List<String> memo = new ArrayList<>();
+    private List<String> startDate = new ArrayList<>();
+    private List<String> endDate = new ArrayList<>();
 
     public void select() throws Exception {
         Connection con = null;

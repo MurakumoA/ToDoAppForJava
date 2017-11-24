@@ -36,16 +36,16 @@
         <th></th>
       </tr>
       <% TodoModel model = (TodoModel)request.getAttribute("model");%>
-      <% if(model != null && model.id.size() > 0) { %>
-      <input type="hidden" name="count" value=<%= model.id.size() %>>
-      <% for(int i = 0; i < model.id.size(); i++) {%>
+      <% if(model != null && model.getId().size() > 0) { %>
+      <input type="hidden" name="count" value=<%= model.getId().size() %>>
+      <% for(int i = 0; i < model.getId().size(); i++) {%>
       <tr>
-        <input type="hidden" name=<%="id" + i%> value=<%= (String)model.id.get(i) %>>
+        <input type="hidden" name=<%="id" + i%> value=<%= (String)model.getId().get(i) %>>
         <td><input type="checkbox" name=<%="del" + i%>></td>
-        <td><input type="text" name=<%="work" + i%> value=<%= (String)model.work.get(i)%>></td>
+        <td><input type="text" name=<%="work" + i%> value=<%= (String)model.getWork().get(i)%>></td>
         <td>
           <select name=<%="cond" + i%>>
-            <% switch(Integer.parseInt(model.cond.get(i))) {
+            <% switch(Integer.parseInt(model.getCond().get(i))) {
               case 1:%>
             <option value="1" selected>未着手</option>
             <option value="2">着手中</option>
@@ -68,9 +68,9 @@
             <% } %>
           </select>
         </td>
-        <td><input type="text" name=<%="memo" + i%> value=<%= (String)model.memo.get(i)%>></td>
-        <td><input type="date" name=<%="startDate" + i%> value=<%= (String)model.startDate.get(i)%>></td>
-        <td><input type="date" name=<%="endDate" + i%> value=<%= (String)model.endDate.get(i)%>></td>
+        <td><input type="text" name=<%="memo" + i%> value=<%= (String)model.getMemo().get(i)%>></td>
+        <td><input type="date" name=<%="startDate" + i%> value=<%= (String)model.getStartDate().get(i)%>></td>
+        <td><input type="date" name=<%="endDate" + i%> value=<%= (String)model.getEndDate().get(i)%>></td>
       </tr>
       <% } %>
       <% } else { %>

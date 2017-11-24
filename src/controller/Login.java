@@ -37,15 +37,14 @@ public class Login  extends HttpServlet{
         }
 
         if (error.size() > 0) {
-            request.setAttribute("mail", mail);
             request.setAttribute("error", error);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
             dispatcher.forward(request,response);
         } else {
 
             LoginModel loginModel = new LoginModel();
-            loginModel.mail = mail;
-            loginModel.password = password;
+            loginModel.setMail(mail);
+            loginModel.setPassword(password);
             try {
                 loginModel.confirm();
             } catch (Exception e) {
@@ -53,15 +52,13 @@ public class Login  extends HttpServlet{
                 dispatcher.forward(request, response);
             }
 
-            if (loginModel.loginCheck) {
+            if (loginModel.getLoginCheck()) {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("userId", loginModel.id);
-                session.setAttribute("name", loginModel.name);
+                session.setAttribute("userId", loginModel.getId());
+                session.setAttribute("name", loginModel.getName());
                 response.sendRedirect("/todo");
             } else {
                 error.add("入力されたメールアドレスまたはパスワードに誤りがあります。");
-                request.setAttribute("mail", mail);
-                request.setAttribute("password", password);
                 request.setAttribute("error", error);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
                 dispatcher.forward(request, response);

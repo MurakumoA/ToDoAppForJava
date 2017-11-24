@@ -27,15 +27,15 @@
     <table>
       <tr>
         <th>メールアドレス</th>
-        <td><input type="text" name="mail" value=<%=request.getAttribute("mail")!=null?request.getAttribute("mail"):""%>></td>
+        <td><input type="text" name="mail" value=<%=request.getParameter("mail")!=null?request.getParameter("mail"):""%>></td>
       </tr>
       <tr>
         <th>名前</th>
-        <td><input type="text" name="name" value=<%=request.getAttribute("name")!=null?request.getAttribute("name"):""%>></td>
+        <td><input type="text" name="name" value=<%=request.getParameter("name")!=null?request.getParameter("name"):""%>></td>
       </tr>
       <tr>
         <th>パスワード</th>
-        <td><input type="password" name="password" value=<%=request.getAttribute("password")!=null?request.getAttribute("password"):""%>></td>
+        <td><input type="password" name="password" value=<%=request.getParameter("password")!=null?request.getParameter("password"):""%>></td>
       </tr>
     </table>
     <p><button type="submit" name="regist">登録</button></p>
